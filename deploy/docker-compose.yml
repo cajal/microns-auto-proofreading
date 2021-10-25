@@ -11,8 +11,6 @@ services:
     ports:
       - "8890:8888"
     volumes:
-      - ./notebooks:/notebooks
-      - ../meshAfterParty:/meshAfterParty
-      - ../examples:/examples
+      - ../notebooks:/notebooks
       - /mnt:/mnt
 

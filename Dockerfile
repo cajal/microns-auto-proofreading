@@ -100,6 +100,9 @@ RUN pip3 install --force-reinstall datajoint==0.12.9
 # ---- 8/24 ------
 RUN pip3 install nglui --upgrade
 
+#--- 10/25: Database restructuring: 
+RUN python3 -m pip --no-cache-dir install git+https://github.com/spapa013/datajoint-python.git
+
 ADD ./jupyter/run_jupyter_unix.sh /scripts/
 ADD ./jupyter/jupyter_notebook_config.py /root/.jupyter/
 ADD ./jupyter/custom.css /root/.jupyter/custom/
