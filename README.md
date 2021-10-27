@@ -1,2 +1,2 @@
-# microns-auto-proofreading
-modules and schemas for auto-proofreading of EM datasets
+# microns-morphology
+modules and schemas for morphological processing of EM datasets
