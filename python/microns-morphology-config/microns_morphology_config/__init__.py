@@ -38,9 +38,7 @@ def create_vm(schema_name:str):
     Creates a virtual module after registering the external stores, and includes the adapter objects in the vm.
     """
     schema = SCHEMAS(schema_name)
-    return config_utils.create_vm(schema.value, 
-                                  external_stores=config_mapping[schema]["externals"],
-                                  adapter_objects=config_mapping[schema]["adapters"])
+    return config_utils.create_vm(schema.value, external_stores=config_mapping[schema]["externals"], adapter_objects=config_mapping[schema]["adapters"])
 
 
 class SCHEMAS(Enum):
@@ -48,8 +46,6 @@ class SCHEMAS(Enum):
     MINNIE65_AUTO_PROOFREADING = "microns_minnie65_auto_proofreading"
     H01_AUTO_PROOFREADING = "microns_h01_auto_proofreading"
     MINNIE65_MORPHOLOGY = "microns_minnie65_morphology"
-
-
 
 
 config_mapping = {

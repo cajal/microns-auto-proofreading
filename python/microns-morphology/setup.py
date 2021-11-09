@@ -22,7 +22,7 @@ setup(
     packages=find_packages(exclude=[]),
     install_requires=[
         #'datajoint==0.12.9',
-        'numpy', 'pandas', 'scipy', 'ipyvolume', 'matplotlib', 'tqdm', 'decorator', 'caveclient', 'nglui',config_package
+        'numpy', 'pandas', 'scipy', 'ipyvolume', 'matplotlib', 'tqdm', 'decorator', 'caveclient', 'nglui', config_package
     ]
     
 )
