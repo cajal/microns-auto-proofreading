@@ -12,6 +12,9 @@ def find_api(name):
 
 api = find_api('microns-morphology-api')
 
+base_requires = ['numpy', 'pandas', 'scipy', 'ipyvolume', 'matplotlib', 'tqdm', 'decorator', 'caveclient', 'nglui', api]
+base_api_shared_requires = ['trimesh']
+
 setup(
     name='microns-morphology',
     version=__version__,
@@ -19,9 +22,6 @@ setup(
     author='Brendan Celii',
     author_email='bac8@rice.edu',
     packages=find_packages(exclude=[]),
-    install_requires=[
-        #'datajoint==0.12.9',
-        'numpy', 'pandas', 'scipy', 'ipyvolume', 'matplotlib', 'tqdm', 'decorator', 'caveclient', 'nglui', api
-    ]
+    install_requires=[base_requires + base_api_shared_requires]
     
 )
