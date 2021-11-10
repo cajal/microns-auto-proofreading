@@ -7,11 +7,10 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, '..', 'version.py')) as f:
     exec(f.read())
 
-def find_config_package(name):
+def find_api(name):
     return f"{name} @ file://localhost/{here}/../{name}#egg={name}"
 
-#config_package = find_config_package('microns-morphology-config')
-config_package = find_config_package('microns-morphology-config')
+api = find_api('microns-morphology-api')
 
 setup(
     name='microns-morphology',
@@ -22,7 +21,7 @@ setup(
     packages=find_packages(exclude=[]),
     install_requires=[
         #'datajoint==0.12.9',
-        'numpy', 'pandas', 'scipy', 'ipyvolume', 'matplotlib', 'tqdm', 'decorator', 'caveclient', 'nglui', config_package
+        'numpy', 'pandas', 'scipy', 'ipyvolume', 'matplotlib', 'tqdm', 'decorator', 'caveclient', 'nglui', api
     ]
     
 )

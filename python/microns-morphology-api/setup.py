@@ -8,9 +8,9 @@ with open(path.join(here, '..', 'version.py')) as f:
     exec(f.read())
 
 setup(
-    name="microns-morphology-config",
+    name="microns-morphology-api",
     version=__version__,
-    description="configuration for microns-morphology",
+    description="api for microns-morphology",
     author="Brendan Celii, Christos Papadopoulos",
     packages=find_packages(),
     install_requires = ['trimesh==3.6.15']
