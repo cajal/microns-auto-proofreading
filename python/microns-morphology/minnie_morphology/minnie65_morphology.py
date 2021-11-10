@@ -1,6 +1,6 @@
 import datajoint as dj
 
-import microns_morphology_config as config
+from microns_morphology_api import config
 schema_name = 'microns_minnie65_morphology'
 
 config.register_adapters(schema_name, context=locals())
