@@ -103,9 +103,9 @@ RUN pip3 install nglui --upgrade
 #--- 10/25: Database restructuring: 
 RUN python3 -m pip --no-cache-dir install git+https://github.com/spapa013/datajoint-python.git
 
-WORKDIR /src
 COPY . /src/microns-morphology
 RUN pip3 install -e /src/microns-morphology/python/microns-morphology
+RUN pip3 install -e /src/microns-morphology/python/microns-morphology-api
 
 WORKDIR /
 
