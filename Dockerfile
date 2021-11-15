@@ -11,7 +11,7 @@ RUN pip3 install -e /src/CGAL/cgal_skeleton_param
 RUN pip3 install bz2file ipywidgets pandasql tqdm
 
 #maintaining certain versions of python modules
-RUN pip3 install --upgrade --force-reinstall trimesh==3.6.15
+RUN pip3 install --upgrade --force-reinstall trimesh==3.9
 RUN pip3 install --upgrade --force-reinstall networkx==2.4
 RUN pip3 install --upgrade --force-reinstall ipyvolume==0.5.2
 
@@ -102,6 +102,12 @@ RUN pip3 install nglui --upgrade
 
 #--- 10/25: Database restructuring: 
 RUN python3 -m pip --no-cache-dir install git+https://github.com/spapa013/datajoint-python.git
+
+WORKDIR /src
+COPY . /src/microns-morphology
+RUN pip3 install -e /src/microns-morphology/python/microns-morphology
+
+WORKDIR /
 
 ADD ./jupyter/run_jupyter_unix.sh /scripts/
 ADD ./jupyter/jupyter_notebook_config.py /root/.jupyter/
