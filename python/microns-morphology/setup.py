@@ -12,7 +12,7 @@ def find_api(name):
 
 api = find_api('microns-morphology-api')
 
-base_requires = ['numpy', 'pandas', 'scipy', 'ipyvolume', 'matplotlib', 'tqdm', 'decorator', 'caveclient', 'nglui', api]
+base_requires = ['numpy', 'pandas', 'scipy', 'ipyvolume', 'matplotlib', 'tqdm', 'decorator', 'caveclient', 'nglui', api, 'microns-utils@git+https://github.com/cajal/microns-utils.git']
 base_api_shared_requires = ['trimesh']
 
 setup(

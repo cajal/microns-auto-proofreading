@@ -13,5 +13,5 @@ setup(
     description="api for microns-morphology",
     author="Brendan Celii, Christos Papadopoulos",
     packages=find_packages(),
-    install_requires = ['trimesh==3.9']
+    install_requires = ['trimesh==3.9', 'microns-utils@git+https://github.com/cajal/microns-utils.git']
 )
