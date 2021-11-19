@@ -250,6 +250,7 @@ h01_morphology_adapter_objects = {
     'h01_meshes': h01_meshes,
     'h01_skeletons': h01_skeletons,
     'h01_somas':h01_somas,
+    'h01_faces':h01_faces,
 }
 
 minnie65_auto_proofreading_adapter_objects = {
@@ -263,6 +264,8 @@ minnie65_morphology_adapter_objects = {
     'minnie65_meshes': minnie65_meshes,
     'minnie65_skeletons': minnie65_skeletons,
     'minnie65_somas':minnie65_somas,
+    'minnie65_faces': minnie65_faces,
+    
 }
 
 
