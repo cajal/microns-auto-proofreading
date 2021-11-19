@@ -15,10 +15,12 @@ base_path = Path() / '/mnt' / 'dj-stor01' / 'microns'
 h01_morphology_external_somas_path =  base_path / 'h01' / 'somas'
 h01_morphology_external_skeletons_path = base_path / 'h01' / 'skeletons'
 h01_morphology_external_meshes_path = base_path / 'h01' / 'meshes'
+h01_morphology_external_faces_path = base_path / 'h01' / 'faces'
 h01_morphology = {
     'h01_somas': config_utils.make_store_dict(h01_morphology_external_somas_path),
     'h01_skeletons': config_utils.make_store_dict(h01_morphology_external_skeletons_path),
     'h01_meshes': config_utils.make_store_dict(h01_morphology_external_meshes_path),
+    'h01_faces': config_utils.make_store_dict(h01_morphology_external_faces_path),
     
     }
 
@@ -39,10 +41,12 @@ h01_auto_proofreading = {
 minnie65_morphology_external_somas_path = base_path / 'minnie' / 'somas'
 minnie65_morphology_external_skeletons_path = base_path / 'minnie' / 'skeletons'
 minnie65_morphology_external_meshes_path = base_path / 'minnie' / 'meshes'
+minnie65_morphology_external_faces_path = base_path / 'minnie' / 'faces'
 minnie65_morphology = {
     'minnie65_somas': config_utils.make_store_dict(minnie65_morphology_external_somas_path),
     'minnie65_skeletons': config_utils.make_store_dict(minnie65_morphology_external_skeletons_path),
     'minnie65_meshes': config_utils.make_store_dict(minnie65_morphology_external_meshes_path),
+    'minnie65_faces': config_utils.make_store_dict(minnie65_morphology_external_faces_path),
     
     }
 
