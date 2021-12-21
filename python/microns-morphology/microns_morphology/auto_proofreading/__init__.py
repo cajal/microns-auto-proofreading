@@ -1,5 +1,5 @@
-from microns_morphology_api import config
+import datajoint.datajoint_plus as djp
 from . import h01_auto_proofreading, minnie65_auto_proofreading
 
-config.register_bases(config.SCHEMAS.H01_AUTO_PROOFREADING, h01_auto_proofreading)
-config.register_bases(config.SCHEMAS.MINNIE65_AUTO_PROOFREADING, minnie65_auto_proofreading)
+djp.reassign_master_attribute(h01_auto_proofreading)
+djp.reassign_master_attribute(minnie65_auto_proofreading)

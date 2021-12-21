@@ -1,4 +1,4 @@
-from microns_morphology_api import config
+import datajoint.datajoint_plus as djp
 from . import minnie65_morphology
 
-config.register_bases(config.SCHEMAS.MINNIE65_MORPHOLOGY, minnie65_morphology)
+djp.reassign_master_attribute(minnie65_morphology)
