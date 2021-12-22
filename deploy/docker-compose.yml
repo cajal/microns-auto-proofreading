@@ -13,4 +13,5 @@ services:
     volumes:
       - ../notebooks:/notebooks
       - /mnt:/mnt
+    container_name: "microns-morphology"
 
