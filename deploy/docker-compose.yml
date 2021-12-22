@@ -3,7 +3,7 @@ services:
   notebook:
     image: celiib/mesh_after_party:latest
     build: 
-      context: .
+      context: ../
     env_file: .env
     environment:
       - DISPLAY=$DISPLAY
@@ -11,7 +11,7 @@ services:
     ports:
       - "8890:8888"
     volumes:
-      - ../notebooks:/notebooks
+      - /notebooks:/notebooks
       - /mnt:/mnt
     container_name: "microns-morphology"
 
