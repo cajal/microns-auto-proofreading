@@ -235,13 +235,15 @@ h01_meshes = MeshAdapter('filepath@h01_meshes')
 h01_faces = DecompressionAdapter('filepath@h01_faces')
 h01_skeletons = DecompressionAdapter('filepath@h01_skeletons')
 h01_decomposition = FilepathAdapter('filepath@h01_decomposition')
-h01_auto_proof_meshes = MeshAdapter('filepath@h01_auto_proof_meshes')
+h01_auto_proof_meshes = DecompressionAdapter('filepath@h01_auto_proof_meshes')
+h01_auto_proof_skeletons = DecompressionAdapter('filepath@h01_auto_proof_skeletons')
 h01_graph = FilepathAdapter("filepath@h01_graph")
 #h01_somas = SomasAdapter('filepath@h01_somas')
 
 minnie65_decimated_meshes = MeshAdapter('filepath@minnie65_decimated_meshes')
 minnie65_soma_meshes = MeshAdapter('filepath@minnie65_soma_meshes')
-minnie65_auto_proof_meshes = MeshAdapter('filepath@minnie65_auto_proof_meshes')
+minnie65_auto_proof_meshes = DecompressionAdapter('filepath@minnie65_auto_proof_meshes')
+minnie65_auto_proof_skeletons = DecompressionAdapter('filepath@minnie65_auto_proof_skeletons')
 minnie65_faces = DecompressionAdapter('filepath@minnie65_faces')
 minnie65_skeletons = DecompressionAdapter('filepath@minnie65_skeletons')
 minnie65_decomposition = FilepathAdapter('filepath@minnie65_decomposition')
@@ -251,11 +253,13 @@ minnie65_graph = FilepathAdapter("filepath@minnie65_graph")
 # also store in one object for ease of use with virtual modules
 h01_auto_proofreading = {
     'h01_auto_proof_meshes': h01_auto_proof_meshes,
+    'h01_auto_proof_skeletons': h01_auto_proof_skeletons,
     'h01_faces': h01_faces,
     'h01_skeletons': h01_skeletons,
     'h01_decomposition': h01_decomposition,
     'h01_graph':h01_graph,
 }
+
 
 h01_morphology = {
     'h01_meshes': h01_meshes,
@@ -266,6 +270,7 @@ h01_morphology = {
 
 minnie65_auto_proofreading = {
     'minnie65_auto_proof_meshes': minnie65_auto_proof_meshes,
+    'minnie65_auto_proof_skeletons': minnie65_auto_proof_skeletons,
     'minnie65_faces': minnie65_faces,
     'minnie65_skeletons': minnie65_skeletons,
     'minnie65_decomposition': minnie65_decomposition,

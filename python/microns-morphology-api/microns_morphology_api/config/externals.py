@@ -37,12 +37,14 @@ h01_auto_proofreading_external_faces_path = base_path / 'h01' / 'faces'
 h01_auto_proofreading_external_skeletons_path = base_path / 'h01' / 'skeletons'
 #h01_auto_proofreading_external_meshes_path = base_path / 'h01' / 'meshes'
 h01_auto_proofreading_external_auto_proof_meshes_path = base_path / 'h01' / 'auto_proof_meshes'
+h01_auto_proofreading_external_auto_proof_skeletons_path = base_path / 'h01' / 'auto_proof_skeletons'
 h01_auto_proofreading_external_graph_path = base_path / 'h01' / 'graph'
 h01_auto_proofreading = {
     'h01_decomposition': djp.make_store_dict(h01_auto_proofreading_external_decomposition_path),
     'h01_faces': djp.make_store_dict(h01_auto_proofreading_external_faces_path),
     'h01_skeletons': djp.make_store_dict(h01_auto_proofreading_external_skeletons_path),
     'h01_auto_proof_meshes': djp.make_store_dict(h01_auto_proofreading_external_auto_proof_meshes_path),
+    'h01_auto_proof_skeletons': djp.make_store_dict(h01_auto_proofreading_external_auto_proof_skeletons_path),
     'h01_graph': djp.make_store_dict(h01_auto_proofreading_external_graph_path),
 }
 
@@ -65,11 +67,13 @@ minnie65_auto_proofreading_external_decomposition_path = base_path / 'minnie65' 
 minnie65_auto_proofreading_external_faces_path = base_path / 'minnie65' / 'faces'
 minnie65_auto_proofreading_external_skeletons_path = base_path / 'minnie65' / 'skeletons'
 minnie65_auto_proofreading_external_auto_proof_meshes_path = base_path / 'minnie65' / 'auto_proof_meshes'
+minnie65_auto_proofreading_external_auto_proof_skeletons_path = base_path / 'minnie65' / 'auto_proof_skeletons'
 minnie65_auto_proofreading_external_graph_path = base_path / 'minnie65' / 'graph'
 minnie65_auto_proofreading = {
     'minnie65_decomposition': djp.make_store_dict(minnie65_auto_proofreading_external_decomposition_path),
     'minnie65_faces': djp.make_store_dict(minnie65_auto_proofreading_external_faces_path),
     'minnie65_skeletons': djp.make_store_dict(minnie65_auto_proofreading_external_skeletons_path),
     'minnie65_auto_proof_meshes': djp.make_store_dict(minnie65_auto_proofreading_external_auto_proof_meshes_path),
+    'minnie65_auto_proof_skeletons': djp.make_store_dict(minnie65_auto_proofreading_external_auto_proof_skeletons_path),
     'minnie65_graph': djp.make_store_dict(minnie65_auto_proofreading_external_graph_path),
 }
