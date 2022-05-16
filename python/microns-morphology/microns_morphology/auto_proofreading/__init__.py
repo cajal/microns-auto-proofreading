@@ -1,4 +1,4 @@
-import datajoint.datajoint_plus as djp
+import datajoint_plus as djp
 from . import h01_auto_proofreading, minnie65_auto_proofreading
 
 djp.reassign_master_attribute(h01_auto_proofreading)
