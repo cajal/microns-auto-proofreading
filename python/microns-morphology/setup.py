@@ -2,18 +2,18 @@
 from setuptools import setup, find_packages
 from os import path
 
+def find_api(name):
+    return f"{name} @ file://localhost/{here}/../{name}#egg={name}"
+
 here = path.abspath(path.dirname(__file__))
 
 with open(path.join(here, '..', 'version.py')) as f:
     exec(f.read())
 
-def find_api(name):
-    return f"{name} @ file://localhost/{here}/../{name}#egg={name}"
+with open(path.join(here, 'requirements.txt')) as f:
+    requirements = f.read().split()
 
-api = find_api('microns-morphology-api')
-
-base_requires = ['numpy', 'pandas', 'scipy', 'ipyvolume', 'matplotlib', 'tqdm', 'decorator', 'caveclient', 'nglui', api, 'microns-utils@git+https://github.com/cajal/microns-utils.git']
-base_api_shared_requires = ['trimesh']
+requirements += find_api('microns-morphology-api')
 
 setup(
     name='microns-morphology',
@@ -22,6 +22,5 @@ setup(
     author='Brendan Celii',
     author_email='bac8@rice.edu',
     packages=find_packages(exclude=[]),
-    install_requires=[base_requires + base_api_shared_requires]
-    
+    install_requires=requirements
 )

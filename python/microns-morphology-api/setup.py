@@ -7,11 +7,14 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, '..', 'version.py')) as f:
     exec(f.read())
 
+with open(path.join(here, 'requirements.txt')) as f:
+    requirements = f.read().split()
+
 setup(
     name="microns-morphology-api",
     version=__version__,
     description="api for microns-morphology",
     author="Brendan Celii, Stelios Papadopoulos, Christos Papadopoulos",
     packages=find_packages(),
-    install_requires = ['trimesh==3.9', 'microns-utils@git+https://github.com/cajal/microns-utils.git']
+    install_requires = requirements
 )
