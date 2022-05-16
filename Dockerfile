@@ -104,8 +104,8 @@ RUN pip3 install nglui --upgrade
 RUN python3 -m pip --no-cache-dir install git+https://github.com/spapa013/datajoint-python.git
 
 COPY . /src/microns-morphology
-RUN pip3 install -e /src/microns-morphology/python/microns-morphology
-RUN pip3 install -e /src/microns-morphology/python/microns-morphology-api
+RUN pip3 install --prefix=$(python -m site --user-base) -e /src/microns-morphology/python/microns-morphology
+RUN pip3 install --prefix=$(python -m site --user-base) -e /src/microns-morphology/python/microns-morphology-api
 
 WORKDIR /
 
