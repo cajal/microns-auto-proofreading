@@ -84,7 +84,7 @@ class DecimatedMeshAdapter(dj.AttributeAdapter):
 #         )
 """
 
-
+'''
 # Somas Adapter: 
 class SomasAdapter(dj.AttributeAdapter):
     # Initialize the correct attribute type (allows for use with multiple stores)
@@ -118,6 +118,7 @@ class SomasAdapter(dj.AttributeAdapter):
 #             vertices=vertices,
 #             faces=faces
 #         )
+'''
     
 
 import os
@@ -234,40 +235,53 @@ h01_meshes = MeshAdapter('filepath@h01_meshes')
 h01_faces = DecompressionAdapter('filepath@h01_faces')
 h01_skeletons = DecompressionAdapter('filepath@h01_skeletons')
 h01_decomposition = FilepathAdapter('filepath@h01_decomposition')
-h01_somas = SomasAdapter('filepath@h01_somas')
+h01_auto_proof_meshes = DecompressionAdapter('filepath@h01_auto_proof_meshes')
+h01_auto_proof_skeletons = DecompressionAdapter('filepath@h01_auto_proof_skeletons')
+h01_graph = FilepathAdapter("filepath@h01_graph")
+#h01_somas = SomasAdapter('filepath@h01_somas')
 
-minnie65_meshes = MeshAdapter('filepath@minnie65_meshes')
+minnie65_decimated_meshes = MeshAdapter('filepath@minnie65_decimated_meshes')
+minnie65_soma_meshes = MeshAdapter('filepath@minnie65_soma_meshes')
+minnie65_auto_proof_meshes = DecompressionAdapter('filepath@minnie65_auto_proof_meshes')
+minnie65_auto_proof_skeletons = DecompressionAdapter('filepath@minnie65_auto_proof_skeletons')
 minnie65_faces = DecompressionAdapter('filepath@minnie65_faces')
 minnie65_skeletons = DecompressionAdapter('filepath@minnie65_skeletons')
 minnie65_decomposition = FilepathAdapter('filepath@minnie65_decomposition')
-minnie65_somas = SomasAdapter('filepath@minnie65_somas')
+minnie65_graph = FilepathAdapter("filepath@minnie65_graph")
+#minnie65_somas = SomasAdapter('filepath@minnie65_somas')
 
 # also store in one object for ease of use with virtual modules
 h01_auto_proofreading = {
-    'h01_meshes': h01_meshes,
+    'h01_auto_proof_meshes': h01_auto_proof_meshes,
+    'h01_auto_proof_skeletons': h01_auto_proof_skeletons,
     'h01_faces': h01_faces,
     'h01_skeletons': h01_skeletons,
-    'h01_decomposition': h01_decomposition
+    'h01_decomposition': h01_decomposition,
+    'h01_graph':h01_graph,
 }
+
 
 h01_morphology = {
     'h01_meshes': h01_meshes,
     'h01_skeletons': h01_skeletons,
-    'h01_somas':h01_somas,
+    #'h01_somas':h01_somas,
     'h01_faces':h01_faces,
 }
 
 minnie65_auto_proofreading = {
-    'minnie65_meshes': minnie65_meshes,
+    'minnie65_auto_proof_meshes': minnie65_auto_proof_meshes,
+    'minnie65_auto_proof_skeletons': minnie65_auto_proof_skeletons,
     'minnie65_faces': minnie65_faces,
     'minnie65_skeletons': minnie65_skeletons,
-    'minnie65_decomposition': minnie65_decomposition
+    'minnie65_decomposition': minnie65_decomposition,
+    'minnie65_graph':minnie65_graph,
 }
 
 minnie65_morphology = {
-    'minnie65_meshes': minnie65_meshes,
+    "minnie65_decimated_meshes":minnie65_decimated_meshes,
+    'minnie65_soma_meshes': minnie65_soma_meshes,
     'minnie65_skeletons': minnie65_skeletons,
-    'minnie65_somas':minnie65_somas,
+    #'minnie65_somas':minnie65_somas,
     'minnie65_faces': minnie65_faces,
     
 }
