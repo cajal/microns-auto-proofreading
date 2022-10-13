@@ -9,4 +9,3 @@ config.register_externals()
 schema = djp.schema(config.schema_name)
 
 schema.spawn_missing_classes()
-schema.connection.dependencies.load()
