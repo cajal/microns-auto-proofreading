@@ -1,14 +1,11 @@
-import datajoint as dj
 import datajoint_plus as djp
 
 from ..config import minnie65_morphology_config as config
-from ..config import minnie65_auto_proofreading_config as autoconfig
-
 config.register_adapters(context=locals())
 config.register_externals()
+
 schema = djp.schema(config.schema_name)
 
-m65auto = djp.create_djp_module(schema_name=autoconfig.schema_name, add_externals=autoconfig.externals, add_objects=autoconfig.adapters)
 
 @schema
 class Segment(djp.Lookup):
@@ -19,6 +16,7 @@ class Segment(djp.Lookup):
     class MatV3(djp.Part):
         definition = """
         -> master
+        -> m65mat.Segment
         """
 
     class Validation(djp.Part):
