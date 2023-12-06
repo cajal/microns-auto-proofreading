@@ -1,15 +1,10 @@
-import datajoint as dj
 import datajoint_plus as djp
 
 from ..config import minnie65_auto_proofreading_config as config
-from ..config import minnie65_morphology_config as morconfig
-
 config.register_adapters(context=locals())
 config.register_externals()
 
 schema = djp.schema(config.schema_name)
-
-m65mor = djp.create_djp_module(schema_name=morconfig.schema_name, add_externals=morconfig.externals, add_objects=morconfig.adapters)
 
 
 @schema
@@ -5335,7 +5330,7 @@ class AutoProofreadNeuronProximityMotifsAuto(djp.Manual):
 @schema
 class ManuallyProofreadAllenNeuron(djp.Computed):
     definition = """
-    meshwork_id          : varchar(12)                  # unique identifier of a meshwork object
+    -> m65mat.Meshwork
     segment_id           : bigint unsigned              # 
     split_index          : tinyint unsigned             # 
     """
