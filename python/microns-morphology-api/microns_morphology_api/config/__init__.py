@@ -35,3 +35,17 @@ minnie65_morphology_config = SchemaConfig(
     externals=externals.minnie65_morphology,
     adapters=adapters.minnie65_morphology
 )
+
+minnie65_auto_proofreading_v2_config = SchemaConfig(
+    module_name='minnie65_auto_proofreading_v2',
+    schema_name='microns_minnie65_auto_proofreading_v2',
+    externals=externals.minnie65_auto_proofreading_v2,
+    adapters=adapters.minnie65_auto_proofreading_v2
+)
+
+minnie65_morphology_v2_config = SchemaConfig(
+    module_name='minnie65_morphology_v2',
+    schema_name='microns_minnie65_morphology_v2',
+    externals=externals.minnie65_morphology_v2,
+    adapters=adapters.minnie65_morphology_v2
+)
