@@ -1,17 +1,29 @@
-version: '2'
+version: '3.4'
+x-build: &build
+  context: ../
+  dockerfile: Dockerfile
+  
+x-shared: &common
+  ipc: host
+  build:
+    context: ../
+    dockerfile: Dockerfile
+    args: 
+      - CLOUDVOLUME_TOKEN=${CLOUDVOLUME_TOKEN}
+  volumes:
+    - ../:/src/microns-morphology
+    - /mnt:/mnt
+  env_file:
+    - .env
+  container_name: "microns-morphology"
+
 services:
   notebook:
-    image: celiib/mesh_after_party:latest
-    build: 
-      context: ../
-    env_file: .env
-    environment:
-      - DISPLAY=$DISPLAY
-      - XSOCK=/tmp/.X11-unix/X0
+    <<: *common
     ports:
-      - "8890:8888"
-    volumes:
-      - /notebooks:/notebooks
-      - /mnt:/mnt
-    container_name: "microns-morphology"
-
+        - "${JUPYTER_HOST:-0.0.0.0}:${JUPYTER_PORT_CONTAINER:-8888}:8888"
+    entrypoint: /src/microns-morphology/deploy/notebook.sh
+    working_dir: /src
+  bin:
+    <<: *common
+    entrypoint: /bin/bash
