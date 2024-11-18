@@ -1,116 +1,62 @@
-FROM celiib/decimation_skeletonization:latest
-LABEL maintainer="Brendan Papadopoulos"
+FROM celiib/neurd:v1
+LABEL maintainer="Stelios Papadopoulos <spapadop@bcm.edu>"
 
-#--7/21: python modules that needed to be added for the neuron package functionality--
+RUN apt-get update --yes && \
+    apt-get upgrade --yes && \
+    apt-get install --yes --no-install-recommends
 
-#the skeletonization function that allows for parameter passing
-ADD ./CGAL/cgal_skeleton_param /src/CGAL/cgal_skeleton_param 
-RUN pip3 install -e /src/CGAL/cgal_skeleton_param 
+RUN pip3 install \
+        nglui \
+        slackclient
 
-#the missing pythongn modules
-RUN pip3 install bz2file ipywidgets pandasql tqdm
+# Install DataJoint with datajoint_plus
+ADD "https://api.github.com/repos/cajal/datajoint-plus/releases?per_page=1" latest
+RUN pip install datajoint-plus
 
-#maintaining certain versions of python modules
-RUN pip3 install --upgrade --force-reinstall trimesh==3.9
-RUN pip3 install --upgrade --force-reinstall networkx==2.4
-RUN pip3 install --upgrade --force-reinstall ipyvolume==0.5.2
+# Install wridgets
+ADD "https://api.github.com/repos/spapa013/wridgets/releases?per_page=1" latest
+RUN pip install wridgets
 
-#---- 8/7 addition --- #
-RUN pip3 install webcolors
+# Install Cajal packages from latest tag
+ADD "https://api.github.com/repos/cajal/microns-utils/releases?per_page=1" latest
+RUN pip install microns-utils
 
-#enabling the visualization of widgets and ipyvolume
-RUN apt update
-RUN apt install curl -y
-RUN apt install nodejs
-RUN npm install n -g
-RUN n stable
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
-RUN jupyter labextension install ipyvolume
+ADD "https://api.github.com/repos/cajal/microns-nda/releases?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-nda/releases?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip install git+https://github.com/cajal/microns-nda.git@$TAG#subdirectory=python/microns-nda-api
 
-#----------------#enabling the pyembree module-----------------------
-RUN apt-get update
-RUN apt-get install -y wget
+ADD "https://api.github.com/repos/cajal/microns-materialization/releases?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-materialization/releases?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip install git+https://github.com/cajal/microns-materialization.git@$TAG#subdirectory=python/microns-materialization-api
 
-#explains why has to do this so can see the shared library: 
-#https://stackoverflow.com/questions/1099981/why-cant-python-find-shared-objects-that-are-in-directories-in-sys-path
-#------------- MAY NEED TO FIX THIS --------------- #
-ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
+ADD "https://api.github.com/repos/cajal/microns-coregistration/releases?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-coregistration/releases?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip install git+https://github.com/cajal/microns-coregistration.git@$TAG#subdirectory=python/microns-coregistration-api
 
-ADD ./CGAL/cgal_skeleton_param /src/CGAL/cgal_skeleton_param 
+ADD "https://api.github.com/repos/cajal/microns-manual-proofreading/releases?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-manual-proofreading/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip install git+https://github.com/cajal/microns-manual-proofreading.git@$TAG#subdirectory=python/microns-manual-proofreading-api
 
-#https://github.com/embree/embree#linux-and-macos (for the dependencies)
-#for the dependencies
-RUN apt-get install -y cmake-curses-gui
-RUN apt-get install -y libtbb-dev
-RUN apt-get install -y libglfw3-dev
+ADD "https://api.github.com/repos/cajal/microns-proximities/releases?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/cajal/microns-proximities/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip install git+https://github.com/cajal/microns-proximities.git@$TAG#subdirectory=python/microns-proximities-api
 
+# NEURD 
+ADD "https://api.github.com/repos/reimerlab/neurd/releases?per_page=1" latest
+RUN export TAG=$(curl -s 'https://api.github.com/repos/reimerlab/neurd/tags?per_page=1' | grep -oP '"name": "\K(.*)(?=")'); \ 
+    pip install git+https://github.com/reimerlab/NEURD.git@$TAG
 
-#Then run the following bash script (bash embree.bash)
-#trimesh bash file: https://github.com/mikedh/trimesh/blob/master/docker/builds/embree.bash
-ADD ./python_bash_files/embree.bash /src/embree.bash
-#may need to change this
-RUN chmod +x /src/embree.bash && /src/embree.bash 
+# install meshAfterParty
+WORKDIR /src
+ARG GITHUB_TOKEN
+RUN git clone https://$GITHUB_TOKEN@github.com/celiibrendan/meshAfterParty.git
+RUN pip install git+https://github.com/cajal/minnie-config.git
 
-# This will add in the meshlabserver functionality for cleaning
-ARG QMAKE_FLAGS="-spec linux-g++ CONFIG+=release CONFIG+=qml_release CONFIG+=c++11 QMAKE_CXXFLAGS+=-fPIC QMAKE_CXXFLAGS+=-std=c++11 QMAKE_CXXFLAGS+=-fpermissive INCLUDEPATH+=/usr/include/eigen3 LIBS+=-L/meshlab/src/external/lib/linux-g++"
-
-ARG MAKE_FLAGS="-j"
-
-ADD ./meshlab_patch_files/meshlab_mini.pro /meshlab/src/meshlab_mini.pro
-WORKDIR /meshlab/src
-RUN qmake -qt=5 meshlab_mini.pro $QMAKE_FLAGS && make $MAKE_FLAGS
-
-
-
-#fixing the trimesh version
-RUN pip3 install --upgrade --force-reinstall trimesh==3.8.1
-
-#---- 11/11 adding the open3d -----
-RUN pip3 install open3d
-
-WORKDIR /meshlab/src/meshlabplugins/filter_ao/
-RUN qmake -qt=5 filter_ao.pro $QMAKE_FLAGS && make $MAKE_FLAGS
-
-#creating starting folder as the root
 WORKDIR /
-
-# ----- 11/19, python modules for allen institute querying -----------
-#------- 1/5: Mesh downloading add ons -----
-RUN pip3 install --upgrade pip
-RUN pip3 install --upgrade meshparty
-
-
-RUN pip3 install annotationframeworkclient 
-RUN pip3 install nglui 
-
-# ------- 1/25:
-RUN pip3 install graphviz
-RUN pip3 install --force-reinstall cloud-volume==3.8.0
-
-
-# ----- 7/1:
-RUN pip3 install dotmotif
-RUN pip3 install annotationframeworkclient --upgrade
-RUN pip3 install jedi==0.17.2
-
-# ---- 8/8:
-RUN pip3 install caveclient
-RUN pip3 install --force-reinstall datajoint==0.12.9
-
-# ---- 8/24 ------
-RUN pip3 install nglui --upgrade
-
-#--- 10/25: Database restructuring: 
-RUN python3 -m pip --no-cache-dir install git+https://github.com/spapa013/datajoint-python.git
+ARG CLOUDVOLUME_TOKEN
+RUN mkdir -p .cloudvolume/secrets
+RUN echo "{\"token\": \"${CLOUDVOLUME_TOKEN:-}\"}" > .cloudvolume/secrets/cave-secret.json
 
 COPY . /src/microns-morphology
-RUN pip3 install --prefix=$(python -m site --user-base) -e /src/microns-morphology/python/microns-morphology
-RUN pip3 install --prefix=$(python -m site --user-base) -e /src/microns-morphology/python/microns-morphology-api
-
-WORKDIR /
-
-ADD ./jupyter/run_jupyter_unix.sh /scripts/
-ADD ./jupyter/jupyter_notebook_config.py /root/.jupyter/
-ADD ./jupyter/custom.css /root/.jupyter/custom/
-RUN chmod -R a+x /scripts
-ENTRYPOINT ["/scripts/run_jupyter_unix.sh"]
+RUN pip install -e /src/microns-morphology/python/microns-morphology
+RUN pip install -e /src/microns-morphology/python/microns-morphology-api
