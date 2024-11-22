@@ -1,5 +1,5 @@
-FROM celiib/neurd:v1
-LABEL maintainer="Stelios Papadopoulos <spapadop@bcm.edu>"
+FROM celiib/neurd:v2
+LABEL maintainer="Brendan Celli <celiibrendan@gmail.com>, Stelios Papadopoulos <spapadop@stanford.edu>"
 
 RUN apt-get update --yes && \
     apt-get upgrade --yes && \
@@ -7,7 +7,7 @@ RUN apt-get update --yes && \
 
 RUN pip3 install \
         nglui \
-        slackclient
+        caveclient
 
 # Install DataJoint with datajoint_plus
 ADD "https://api.github.com/repos/cajal/datajoint-plus/releases?per_page=1" latest
@@ -49,7 +49,8 @@ RUN export TAG=$(curl -s 'https://api.github.com/repos/reimerlab/neurd/tags?per_
 # install meshAfterParty
 WORKDIR /src
 ARG GITHUB_TOKEN
-RUN git clone https://$GITHUB_TOKEN@github.com/celiibrendan/meshAfterParty.git
+RUN [ -n "$GITHUB_TOKEN" ] && git clone https://$GITHUB_TOKEN@github.com/celiibrendan/meshAfterParty.git || echo "GITHUB_TOKEN is not provided, skipping clone."
+
 RUN pip install git+https://github.com/cajal/minnie-config.git
 
 WORKDIR /
