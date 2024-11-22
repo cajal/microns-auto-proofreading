@@ -5,15 +5,9 @@ Externals for DataJoint tables.
 from pathlib import Path
 import datajoint_plus as djp
 
-'''
-minnie_em_external_stack_path = Path() / '/mnt' / 'dj-stor01' / 'microns'/ 'minnie' / 'stacks'
-minnie_em = {
-    'stacks': make_store_dict(minnie_em_external_stack_path)
-    }
-    
-'''
 
 base_path = Path() / '/mnt' / 'dj-stor01' / 'microns'
+base_path2 = Path() / '/mnt' / 'dj-stor02' / 'microns'
 
 #h01 morphology
 #h01_morphology_external_somas_path =  base_path / 'h01' / 'somas'
@@ -76,4 +70,22 @@ minnie65_auto_proofreading = {
     'minnie65_auto_proof_meshes': djp.make_store_dict(minnie65_auto_proofreading_external_auto_proof_meshes_path),
     'minnie65_auto_proof_skeletons': djp.make_store_dict(minnie65_auto_proofreading_external_auto_proof_skeletons_path),
     'minnie65_graph': djp.make_store_dict(minnie65_auto_proofreading_external_graph_path),
+}
+
+#minnie65_morphology v2
+minnie65_morphology_v2_decimated_meshes_path = base_path2 / 'minnie' / 'morphology'/ 'decimated_meshes'
+minnie65_morphology_v2_decomposition_path = base_path2 / 'minnie' / 'morphology' / 'decomposition'
+minnie65_morphology_v2 = {
+    'minnie65_decimated_meshes': djp.make_store_dict(minnie65_morphology_v2_decimated_meshes_path),
+    'minnie65_decomposition': djp.make_store_dict(minnie65_morphology_v2_decomposition_path),
+}
+
+#minnie_auto_proofreading v2
+minnie65_auto_proofreading_v2_meshes_path = base_path2 / 'minnie' / 'auto_proofreading' / 'meshes'
+minnie65_auto_proofreading_v2_skeletons_path = base_path2 / 'minnie' / 'auto_proofreading' / 'skeletons'
+minnie65_auto_proofreading_v2_graphs_path = base_path2 / 'minnie' / 'auto_proofreading' / 'graphs'
+minnie65_auto_proofreading_v2 = {
+    'minnie65_auto_proof_meshes': djp.make_store_dict(minnie65_auto_proofreading_v2_meshes_path),
+    'minnie65_auto_proof_skeletons': djp.make_store_dict(minnie65_auto_proofreading_v2_skeletons_path),
+    'minnie65_auto_proof_graphs': djp.make_store_dict(minnie65_auto_proofreading_v2_graphs_path),
 }

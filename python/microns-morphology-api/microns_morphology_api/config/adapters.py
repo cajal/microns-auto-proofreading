@@ -7,6 +7,7 @@ import numpy as np
 import h5py
 import os
 import trimesh
+from microns_utils.adapter_utils import NumpyAdapter
 
 from collections import namedtuple
 
@@ -19,7 +20,7 @@ class MeshAdapter(dj.AttributeAdapter):
 
     attribute_type = '' # this is how the attribute will be declared
 
-    TriangularMesh = namedtuple('TriangularMesh', ['segment_id', 'vertices', 'faces'])
+    # TriangularMesh = namedtuple('TriangularMesh', ['segment_id', 'vertices', 'faces'])
     
     def put(self, filepath):
         # save the filepath to the mesh
@@ -37,89 +38,13 @@ class MeshAdapter(dj.AttributeAdapter):
         
         segment_id = os.path.splitext(os.path.basename(filepath))[0]
 
-        return trimesh.Trimesh(vertices = vertices,faces=faces)
+        return trimesh.Trimesh(vertices=vertices, faces=faces)
 #         self.TriangularMesh(
 #             segment_id=int(segment_id),
 #             vertices=vertices,
 #             faces=faces
 #         )
 
-
-"""
-class DecimatedMeshAdapter(dj.AttributeAdapter):
-    # Initialize the correct attribute type (allows for use with multiple stores)
-    def __init__(self, attribute_type):
-        self.attribute_type = attribute_type
-        super().__init__()
-
-    attribute_type = '' # this is how the attribute will be declared
-    has_version = False # used for file name recognition
-
-    TriangularMesh = namedtuple('TriangularMesh', ['segment_id', 'version', 'decimation_ratio', 'vertices', 'faces'])
-    
-    def put(self, filepath):
-        # save the filepath to the mesh
-        filepath = os.path.abspath(filepath)
-        assert os.path.exists(filepath)
-        return filepath
-
-    def get(self, filepath):
-        # access the h5 file and return a mesh
-        assert os.path.exists(filepath)
-
-        with h5py.File(filepath, 'r') as hf:
-            segment_id = hf['segment_id'][()].astype(np.uint64)
-            version = hf['version'][()].astype(np.uint8)
-            decimation_ratio = hf['decimation_ratio'][()].astype(np.float64)
-            vertices = hf['vertices'][()].astype(np.float64)
-            faces = hf['faces'][()].reshape(-1, 3).astype(np.uint32)
-        
-        return trimesh.Trimesh(vertices = vertices,faces=faces)
-#         self.TriangularMesh(
-#             segment_id=int(segment_id),
-#             version=version,
-#             decimation_ratio=decimation_ratio,
-#             vertices=vertices,
-#             faces=faces
-#         )
-"""
-
-'''
-# Somas Adapter: 
-class SomasAdapter(dj.AttributeAdapter):
-    # Initialize the correct attribute type (allows for use with multiple stores)
-    def __init__(self, attribute_type):
-        self.attribute_type = attribute_type
-        super().__init__()
-
-    attribute_type = '' # this is how the attribute will be declared
-
-    TriangularMesh = namedtuple('TriangularMesh', ['segment_id', 'vertices', 'faces'])
-    
-    def put(self, filepath):
-        # save the filepath to the mesh
-        filepath = os.path.abspath(filepath)
-        assert os.path.exists(filepath)
-        return filepath
-
-    def get(self, filepath):
-        # access the h5 file and return a mesh
-        assert os.path.exists(filepath)
-
-        with h5py.File(filepath, 'r') as hf:
-            vertices = hf['vertices'][()].astype(np.float64)
-            faces = hf['faces'][()].reshape(-1, 3).astype(np.uint32)
-        
-        segment_id = os.path.splitext(os.path.basename(filepath))[0]
-        return trimesh.Trimesh(vertices = vertices,faces=faces)
-        
-#         return self.TriangularMesh(
-#             segment_id=int(segment_id),
-#             vertices=vertices,
-#             faces=faces
-#         )
-'''
-    
 
 import os
 class FilepathAdapter(dj.AttributeAdapter):
@@ -138,7 +63,7 @@ class FilepathAdapter(dj.AttributeAdapter):
         assert os.path.exists(filepath)
         return filepath
     
-    def get(self,filepath):
+    def get(self, filepath):
         """
         1) Get the filepath of the decimated mesh
         2) Make sure that both file paths exist
@@ -174,7 +99,12 @@ class FilepathAdapter(dj.AttributeAdapter):
 #                      original_mesh=dec_mesh)
         
         return recovered_neuron
-    
+
+class MeshNPZToTrimeshAdapter(FilepathAdapter):
+    def get(self, filepath):
+        filepath = super().get(filepath)
+        mesh = np.load(filepath)
+        return trimesh.Trimesh(vertices=mesh['vertices'], faces=mesh['faces'])
     
 #import system_utils as su
 from pathlib import Path
@@ -250,6 +180,12 @@ minnie65_decomposition = FilepathAdapter('filepath@minnie65_decomposition')
 minnie65_graph = FilepathAdapter("filepath@minnie65_graph")
 #minnie65_somas = SomasAdapter('filepath@minnie65_somas')
 
+minnie65_morphology_v2_decimated_meshes_adapter = MeshNPZToTrimeshAdapter('filepath@minnie65_decimated_meshes')
+minnie65_morphology_v2_decomposition_adapter = FilepathAdapter('filepath@minnie65_decomposition')
+minnie65_auto_proofreading_v2_auto_proof_meshes_adapter = MeshNPZToTrimeshAdapter('filepath@minnie65_auto_proof_meshes')
+minnie65_auto_proofreading_v2_auto_proof_skeletons_adapter = NumpyAdapter('filepath@minnie65_auto_proof_skeletons')
+minnie65_auto_proofreading_v2_auto_proof_graphs_adapter = FilepathAdapter('filepath@minnie65_auto_proof_graphs')
+
 # also store in one object for ease of use with virtual modules
 h01_auto_proofreading = {
     'h01_auto_proof_meshes': h01_auto_proof_meshes,
@@ -260,12 +196,20 @@ h01_auto_proofreading = {
     'h01_graph':h01_graph,
 }
 
-
 h01_morphology = {
     'h01_meshes': h01_meshes,
     'h01_skeletons': h01_skeletons,
     #'h01_somas':h01_somas,
     'h01_faces':h01_faces,
+}
+
+minnie65_morphology = {
+    "minnie65_decimated_meshes": minnie65_decimated_meshes,
+    'minnie65_soma_meshes': minnie65_soma_meshes,
+    'minnie65_skeletons': minnie65_skeletons,
+    #'minnie65_somas':minnie65_somas,
+    'minnie65_faces': minnie65_faces,
+    
 }
 
 minnie65_auto_proofreading = {
@@ -277,23 +221,14 @@ minnie65_auto_proofreading = {
     'minnie65_graph':minnie65_graph,
 }
 
-minnie65_morphology = {
-    "minnie65_decimated_meshes":minnie65_decimated_meshes,
-    'minnie65_soma_meshes': minnie65_soma_meshes,
-    'minnie65_skeletons': minnie65_skeletons,
-    #'minnie65_somas':minnie65_somas,
-    'minnie65_faces': minnie65_faces,
-    
+minnie65_morphology_v2 = {
+    "minnie65_decimated_meshes": minnie65_morphology_v2_decimated_meshes_adapter,
+    'minnie65_decomposition': minnie65_morphology_v2_decomposition_adapter,
 }
 
+minnie65_auto_proofreading_v2 = {
+    'minnie65_auto_proof_meshes': minnie65_auto_proofreading_v2_auto_proof_meshes_adapter,
+    'minnie65_auto_proof_skeletons': minnie65_auto_proofreading_v2_auto_proof_skeletons_adapter,
+    'minnie65_auto_proof_graphs': minnie65_auto_proofreading_v2_auto_proof_graphs_adapter,
+}
 
-
-# __all__ = ['h01_mesh',
-#            'h01_faces',
-#            "h01_skeleton",
-#            "h01_decomposition",
-           
-#            'minnie65_mesh',
-#            'minnie65_faces',
-#            "minnie65_skeleton",
-#            "minnie65_decomposition",]
